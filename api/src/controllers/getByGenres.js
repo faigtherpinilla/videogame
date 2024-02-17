@@ -1,7 +1,7 @@
 const {axios} = require ("axios");
 //const axios = require("axios");
 
-const URL = "https://api.rawg.io/api/genres/?api_key=6d75cbcb52524ecc82493448d09c0dce";
+const URL = "https://api.rawg.io/api/genres?key=6d75cbcb52524ecc82493448d09c0dce";
  
 const getById = async (req,res) =>{
 
