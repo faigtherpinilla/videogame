@@ -145,7 +145,7 @@ Tu servidor deberá contar con las siguientes rutas:
 
 #### **📍 GET | /videogames**
 
--  Obtiene un arreglo de objetos, donde cada objeto es un videojuego con su información.
+-  h
 
 #### **📍 GET | /videogames/:idVideogame**
 
