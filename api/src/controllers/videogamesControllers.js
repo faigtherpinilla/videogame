@@ -82,4 +82,4 @@ const getVideogames = async (req, res) => {
     }
 }
 
-module.exports = getVideogames;
+//module.exports = getVideogames;

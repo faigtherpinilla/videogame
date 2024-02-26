@@ -1,0 +1,6 @@
+.landingContainer{
+    background-image: url('../../assets/LandingFondo.gif');
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+};

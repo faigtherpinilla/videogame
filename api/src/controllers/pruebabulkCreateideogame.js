@@ -33,4 +33,4 @@ const getvideogames = async () => {
 
     
 };
-module.exports = getvideogames
+//module.exports = getvideogames

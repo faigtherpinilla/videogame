@@ -1,0 +1,53 @@
+.cardImg{
+    width: 20vw;
+    height: 15vw;
+}
+.cardContainer{
+    width: 20vw;
+    border-radius: 20px;
+    border-radius: 30px;
+    /* background: #212121; */
+    box-shadow: 15px 15px 30px rgb(25, 25, 25), -15px -15px 30px rgb(60, 60, 60);
+    overflow: hidden;
+    text-align: center;
+    transition: all 0.25s;
+    /* background-color: rgb(12, 11, 11, 0.3); */
+    background: linear-gradient(rgba(255, 255, 255, 0.473), rgba(150, 150, 150, 0.25));
+}
+.h1Name{
+    background-color: rgb(238, 23, 130, 0.7);
+
+}
+.name{
+    text-decoration: none;
+    color: aliceblue;
+    font-weight: bold;
+}
+.card{
+    text-decoration: none;
+    color: aliceblue;
+}
+.cardContainer:hover,
+.cardContainer:focus {
+    box-shadow: 15px 15px 30px rgb(98, 58, 230), -15px -15px 30px rgb(205, 52, 197);
+}
+.genres{
+    background-color: rgba(238, 23, 130,  0.7);
+    color: aliceblue;
+    font-weight: bold;
+}
+.UserRating{
+    background-color: rgb(238, 23, 130, 0.7);
+    color: aliceblue;
+    font-weight: bold;
+}
+
+.rating{
+    background-color: rgb(238, 23, 130, 0.7);
+    color: aliceblue;
+    font-weight: bold;
+}
+
+.ratingImg{
+    width: 1vw;
+}
