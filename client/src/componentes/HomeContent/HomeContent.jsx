@@ -79,7 +79,7 @@ const HomeContent = () => {
                   key={game.id}
                   background_image={game.background_image}
                   name={game.name}
-                  genres={game.genres.join(', ')}
+                  genres={game.genres}
                   rating={game.rating}
                 />
               </div>

@@ -32,8 +32,8 @@ const GameDetail = () => {
               <h1>{game.name}</h1>
               <p dangerouslySetInnerHTML = {{__html: game.description}} className={style.description} />
             </div>
-             <h2 className={style.gamePlatforms}>Available at: {game.platforms.join(' , ')}</h2>
-             <h2>Game Genres: {game.genres.join(' , ')}</h2> 
+             <h2 className={style.gamePlatforms}>Available at: {game.platforms}</h2>
+             <h2>Game Genres: {game.genres}</h2> 
              <h2 className={style.gameRating}>Avarage rating: {game.rating}</h2>
              <h3 className={style.gameReleased}>Released at: {game.released}</h3>
              <p className={style.id}>Game number: {game.id}</p>

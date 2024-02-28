@@ -1,34 +1,41 @@
-/* .button{
-    padding: 1%;
-    border-radius: 1em;
-    border: 0.5em double rgb(183, 33, 229);
-    background-color: rgb(255, 105, 180, 0.3);
-    filter: drop-shadow(0px 2px 0px rgba(255, 255, 255, 0.81));
-} */
+.wrapper {
+  padding: 10px; /* Ajustar el espaciado interno según sea necesario */
+  background: linear-gradient(32deg,#03a8f474,#07d33d67,#a7e77c63,#03a8f46a);
+  border: 2px solid #ffffff; /* Borde sólido blanco */
+  border-radius: 20px; /* Borde redondeado */
+  text-align: center; /* Alineación del contenido al centro */
+  font-weight: 1200;
+  font-family: 'Press Start 2P', cursive; /* Fuente pixel art */
+  margin: 30px 500px 20px 500px;
+  box-shadow: 0 0 150px rgb(197, 239, 244)
+  
+  
+}
+
 
 .link{
     padding: 1em;
     text-align: center;
     text-decoration: none;
     font-size: large;
-    font-weight: 700;
+    font-weight: 900;
     color: rgb(14, 11, 15);
     text-shadow: 0px 2px 0px rgba(255, 255, 255, 0.81);
 }
 
  .link:focus{
-    color: rgb(208, 89, 89);
+    color: rgb(0, 247, 238);
     font-weight: bold;
 }
 
 
 
 .button {
+  display: inline-block;
     text-decoration: none;
     position: center;
     border: none;
-    margin-top: 40%;
-    margin-right: 15%;
+    margin: 30px 0 20px 0;
     font-size: 14px;
     font-family: inherit;
     color: #fff;
@@ -78,3 +85,4 @@
   .button:active {
     background: linear-gradient(32deg,#03a9f4,#07d33d,#a6e77c,#03a9f4);
   }
+

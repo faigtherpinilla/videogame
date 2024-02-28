@@ -1,85 +1,65 @@
-require('dotenv').config();
+const URL = "https://api.rawg.io/api/games";
 const axios = require("axios");
-const { Videogame } = require('../db.js');
-const { Op } = require('sequelize');
-const { Genre, Platform } = require('../db.js');
-const { API_KEY } = process.env;
-const API_URL = `https://api.rawg.io/api/games?key=${API_KEY}&page_size=40`;
+require("dotenv").config();
 
-const getVideogames = async (req, res) => {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 15;
-    const { name, order, genre, origin } = req.query;
+const { Videogame,Genres  } = require("../db.js");
 
-    try {
-        let videogamesDb;
-        if (name && name !== "") {
-            videogamesDb = await Videogame.findAll({
-                include: {
-                    model: Genre,
-                    as: 'genres',
-                    through: {
-                        attributes: []
-                    }
-                },
-                attributes: { exclude: ['description'] },
-                where: {
-                    name: { [Op.iLike]: `%${name}%` }
-                },
-                order: [
-                    [{ model: Genre, as: 'genres' }, 'name', 'ASC']
-                ]
-            });
-        } else {
-            videogamesDb = await Videogame.findAll({
-                include: {
-                    model: Genre,
-                    as: 'genres',
-                    through: {
-                        attributes: []
-                    }
-                },
-                attributes: { exclude: ['description'] }
-            });
-        }
-        const { data } = await axios(`${API_URL}&search=${name}`);
-        const videogamesApi = data.results && data.results.map(v => ({ 
-            id: v.id,
-            name: v.name,
-            platforms: v.platform && v.platforms.map(p => p.platform.name),
-            image: v.background_image,
-            released: v.released,
-            rating: v.rating,
-            genres: v.genres && v.genres.map(g => ({ id: g.id, name: g.name })).sort(),
-        }));
-        
-        Platform.count()
-        .then((count) => {
-            if (count === 0) {
-                    const platforms = new Set(videogamesApi.flatMap(game => game.platforms));
-                    const allPlatforms = [...platforms].map(platformName => ({ name: platformName }));
-                    return Platform.bulkCreate(allPlatforms.sort((a, b) =>  a.name.toLowerCase().localeCompare(b.name.toLowerCase())));
-                }
-            });
-        
-        const allVideogames = [...videogamesDb, ...videogamesApi];
-        allVideogames.forEach(game => {
-            if (Array.isArray(game.platforms)) {
-              game.platforms.sort((a, b) =>  a.toLowerCase().localeCompare(b.toLowerCase()));
-            }
-        });
+const getAllVideogames = async () => {
+  try {
+    const totalPages = 5; 
+    const limit = 20; 
+    const allVideogames = [];
+    const gameDB = [];
 
-        const startIndex = (page - 1) * limit;
-        if (name) {
-            res.header('total-videogames', allVideogames.length > 15 ? limit : allVideogames.length);
-            return res.json(allVideogames.slice(0,limit));
-        } else {
-            res.header('total-videogames', allVideogames.length);
-            return res.json(allVideogames.slice(startIndex, startIndex + limit));
-        }
-    } catch (error) {
-        res.status(500).send(error.message);
+    const videogamesDB = await Videogame.findAll({
+      include: {
+        model: Genres, // Utiliza el nombre del modelo
+        as: 'genres' // Especifica el alias correctamente
     }
-}
+    });
 
-//module.exports = getVideogames;
+    const mappedVideogamesDB = videogamesDB.map((videogameDB) => ({
+      id: videogameDB.id,
+      name: videogameDB.name,
+      image: videogameDB.image,
+      description: videogameDB.description,
+      platforms: videogameDB.platforms.split(', '),
+      released: videogameDB.released,
+      rating: videogameDB.rating,
+      genres: videogameDB.genres.map((genres) => genres.name),
+      source: "Database",
+    }));
+
+    gameDB.push(...mappedVideogamesDB);
+
+    for (let page = 1; page <= totalPages; page++) {
+      const videogamesApi = await axios(`${URL}?key=6ea240ad4b0e47f4974bc614f1156987&page=${page}&page_size=${limit}`);
+      
+    
+      if (!videogamesApi.data.results || videogamesApi.data.results.length === 0) {
+        throw Error(`No hay juegos en la página ${page} de la API`);
+      }
+
+      const videogamesFromPage = videogamesApi.data.results.map((videogame) => ({
+        id: videogame.id,
+        name: videogame.name,
+        image: videogame.background_image,
+        genres: videogame.genres.map((genres) => genres.name).join(", "),
+        released: videogame.released,
+        rating: videogame.rating,
+        platforms: videogame.platforms
+          .map((info) => info.platform.name)
+          .join(", "),
+      }));
+    
+      allVideogames.push(...videogamesFromPage);
+    }
+    
+    return [...gameDB, ...allVideogames];
+  } catch (error) {
+    console.error("Error in getAllVideogames:", error);
+    throw error;
+  }
+};
+
+module.exports = getAllVideogames;
